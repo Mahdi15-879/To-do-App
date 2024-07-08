@@ -1,4 +1,4 @@
-import TodoList from "./components/TodoList";
+import TodoList from "@/app/components/TodoList";
 
 const Home: React.FC = () => {
   return (
