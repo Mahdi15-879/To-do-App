@@ -20,7 +20,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="p-2 border rounded-lg overflow-hidden ">
+    <div className="p-2 border rounded-lg overflow-hidden bg-white">
       {isEditing ? (
         <Formik
           initialValues={{ text }}

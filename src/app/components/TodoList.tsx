@@ -117,7 +117,7 @@ const TodoList: React.FC = () => {
         }}
       >
         {({ isValid }) => (
-          <Form className="w-full p-2 flex items-center justify-between border rounded-lg overflow-hidden">
+          <Form className="w-full p-2 flex items-center justify-between border rounded-lg overflow-hidden bg-white">
             <Field
               name="text"
               placeholder="Add to-do"
