@@ -21,6 +21,7 @@ export interface SortableItemProps {
 
 export interface SortableListContainerProps {
   children?: React.ReactNode;
+  className: string;
   onSortEnd: ({
     oldIndex,
     newIndex,
