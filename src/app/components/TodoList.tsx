@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -40,6 +40,19 @@ const SortableListContainer = SortableContainer<SortableListContainerProps>(
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTodos = () => {
+      setTimeout(() => {
+        const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+        setTodos(storedTodos);
+        setLoading(false);
+      }, 1000);
+    };
+
+    fetchTodos();
+  }, []);
 
   const addTodo = (text: string) => {
     setTodos([...todos, { id: uuidv4(), text, children: [] }]);
@@ -123,21 +136,27 @@ const TodoList: React.FC = () => {
         )}
       </Formik>
 
-      <SortableListContainer
-        onSortEnd={onSortEnd}
-        className="flex flex-col gap-3 w-full"
-      >
-        {todos.map((todo, index) => (
-          <SortableItem
-            key={todo.id}
-            index={index}
-            todo={todo}
-            addChild={addChild}
-            editTodo={editTodo}
-            removeTodo={removeTodo}
-          />
-        ))}
-      </SortableListContainer>
+      {loading ? (
+        <div className="w-full flex items-center justify-center mt-10 mb-4">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <SortableListContainer
+          onSortEnd={onSortEnd}
+          className="flex flex-col gap-3 w-full"
+        >
+          {todos.map((todo, index) => (
+            <SortableItem
+              key={todo.id}
+              index={index}
+              todo={todo}
+              addChild={addChild}
+              editTodo={editTodo}
+              removeTodo={removeTodo}
+            />
+          ))}
+        </SortableListContainer>
+      )}
     </div>
   );
 };
