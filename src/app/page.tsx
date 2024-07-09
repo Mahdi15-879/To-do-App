@@ -1,4 +1,6 @@
-import TodoList from "./components/TodoList";
+import dynamic from "next/dynamic";
+
+const TodoList = dynamic(() => import("./components/TodoList"), { ssr: false });
 
 const Home: React.FC = () => {
   return (

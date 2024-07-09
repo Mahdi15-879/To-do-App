@@ -12,6 +12,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import * as Yup from "yup";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { arrayMoveImmutable as arrayMove } from "array-move";
+import Icon from "./Icon";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),
@@ -112,7 +113,7 @@ const TodoList: React.FC = () => {
                 !isValid && "opacity-50 cursor-not-allowed"
               }`}
             >
-              Add
+              <Icon icon="AddSquare" className="pointer-events-none" />
             </button>
           </Form>
         )}

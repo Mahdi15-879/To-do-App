@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "../../../node_modules/formik/dist";
 import { TodoItemProps } from "./index.type";
 import * as Yup from "yup";
+import Icon from "./Icon";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),
@@ -39,7 +40,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
                   !isValid && "opacity-50 cursor-not-allowed"
                 }`}
               >
-                Save
+                <Icon icon="Edit" className="pointer-events-none" />
               </button>
             </Form>
           )}
@@ -52,13 +53,13 @@ const TodoItem: React.FC<TodoItemProps> = ({
               onClick={() => setIsEditing(true)}
               className="bg-yellow-500 text-white p-1 rounded mr-2"
             >
-              Edit
+              <Icon icon="Edit" className="pointer-events-none" />
             </button>
             <button
               onClick={() => onRemove(id)}
               className="bg-red-500 text-white p-1 rounded"
             >
-              Remove
+              <Icon icon="Trash" className="pointer-events-none" />
             </button>
           </div>
         </div>
@@ -87,7 +88,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
                   !isValid && "opacity-50 cursor-not-allowed"
                 }`}
               >
-                Add
+                <Icon icon="AddSquare" className="pointer-events-none" />
               </button>
             </Form>
           )}
