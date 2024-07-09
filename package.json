@@ -9,18 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "array-move": "^4.0.0",
     "formik": "^2.4.6",
     "next": "14.2.4",
     "react": "^18",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
+    "react-sortable-hoc": "^2.0.0",
     "uuid": "^10.0.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
     "eslint": "^8",

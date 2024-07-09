@@ -2,15 +2,40 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 import { v4 as uuidv4 } from "uuid";
-import { Todo } from "./index.type";
+import {
+  Todo,
+  SortableItemProps,
+  SortableListContainerProps,
+} from "./index.type";
 import { Formik, Form, Field } from "../../../node_modules/formik/dist";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import * as Yup from "yup";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { arrayMoveImmutable as arrayMove } from "array-move";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),
 });
+
+const SortableItem = SortableElement<SortableItemProps>(
+  ({ todo, addChild, editTodo, removeTodo }: SortableItemProps) => (
+    <TodoItem
+      id={todo.id}
+      text={todo.text}
+      children={todo.children}
+      onAddChild={addChild}
+      onEdit={editTodo}
+      onRemove={removeTodo}
+      level={1}
+    />
+  )
+);
+
+const SortableListContainer = SortableContainer<SortableListContainerProps>(
+  ({ children }: SortableListContainerProps) => {
+    return <div>{children}</div>;
+  }
+);
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useLocalStorage<Todo[]>("todos", []);
@@ -56,12 +81,15 @@ const TodoList: React.FC = () => {
     setTodos(addHelper(todos));
   };
 
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const items = Array.from(todos);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setTodos(items);
+  const onSortEnd = ({
+    oldIndex,
+    newIndex,
+  }: {
+    oldIndex: number;
+    newIndex: number;
+  }) => {
+    const newTodos = arrayMove(todos, oldIndex, newIndex);
+    setTodos(newTodos);
   };
 
   return (
@@ -89,41 +117,18 @@ const TodoList: React.FC = () => {
           </Form>
         )}
       </Formik>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="todo-list">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="mt-4"
-            >
-              {todos.map((todo, index) => (
-                <Draggable key={todo.id} draggableId={todo.id} index={index}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="mb-4"
-                    >
-                      <TodoItem
-                        id={todo.id}
-                        text={todo.text}
-                        children={todo.children}
-                        onAddChild={addChild}
-                        onEdit={editTodo}
-                        onRemove={removeTodo}
-                        level={1}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <SortableListContainer onSortEnd={onSortEnd}>
+        {todos.map((todo, index) => (
+          <SortableItem
+            key={todo.id}
+            index={index}
+            todo={todo}
+            addChild={addChild}
+            editTodo={editTodo}
+            removeTodo={removeTodo}
+          />
+        ))}
+      </SortableListContainer>
     </div>
   );
 };

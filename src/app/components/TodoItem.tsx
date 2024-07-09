@@ -104,7 +104,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             onAddChild={onAddChild}
             onEdit={onEdit}
             onRemove={onRemove}
-            level={level + 1} 
+            level={level + 1}
           />
         ))}
       </div>
