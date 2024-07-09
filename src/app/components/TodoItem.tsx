@@ -40,7 +40,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
                   !isValid && "opacity-50 cursor-not-allowed"
                 }`}
               >
-                <Icon icon="Edit" className="pointer-events-none" />
+                <Icon icon="TickSquare" className="pointer-events-none" />
               </button>
             </Form>
           )}
