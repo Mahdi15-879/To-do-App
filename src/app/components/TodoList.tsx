@@ -11,7 +11,7 @@ import {
   IAddChildParams,
   IOnSortEndParams,
 } from "./index.type";
-import { Formik, Form, Field } from "../../../node_modules/formik/dist";
+import { Formik, Form, Field } from "formik";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import * as Yup from "yup";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
