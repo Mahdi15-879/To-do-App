@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "../../../node_modules/formik/dist";
+import { Formik, Form, Field } from "formik";
 import { TodoItemProps } from "./index.type";
 import * as Yup from "yup";
 import Icon from "./Icon";
