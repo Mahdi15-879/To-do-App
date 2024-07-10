@@ -1,12 +1,51 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
-import { TodoItemProps } from "./index.type";
+import {
+  TodoItemProps,
+  SortableItemProps,
+  SortableListContainerProps,
+  IOnSortEndParams,
+} from "./index.type";
 import * as Yup from "yup";
 import Icon from "./Icon";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { onSortEnd } from "./helpers";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),
 });
+
+const SortableItem = SortableElement<SortableItemProps>(
+  ({
+    addChild,
+    editTodo,
+    removeTodo,
+    level,
+    id,
+    text,
+    children,
+    todos,
+    setTodos,
+  }: SortableItemProps) => (
+    <TodoItem
+      id={id ? id : ""}
+      text={text ? text : ""}
+      children={children ? children : []}
+      onAddChild={addChild}
+      onEdit={editTodo}
+      onRemove={removeTodo}
+      level={level}
+      todos={todos}
+      setTodos={setTodos}
+    />
+  )
+);
+
+const SortableListContainer = SortableContainer<SortableListContainerProps>(
+  ({ children, className }: SortableListContainerProps) => {
+    return <div className={className}>{children}</div>;
+  }
+);
 
 const TodoItem: React.FC<TodoItemProps> = ({
   id,
@@ -16,6 +55,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
   onEdit,
   onRemove,
   level = 1,
+  todos,
+  setTodos,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -95,20 +136,34 @@ const TodoItem: React.FC<TodoItemProps> = ({
         </Formik>
       )}
 
-      <div className="mt-2 flex flex-col gap-2">
-        {children.map((child) => (
-          <TodoItem
-            key={child.id}
-            id={child.id}
-            text={child.text}
-            children={child.children}
-            onAddChild={onAddChild}
-            onEdit={onEdit}
-            onRemove={onRemove}
+      <SortableListContainer
+        onSortEnd={({ oldIndex, newIndex }) =>
+          onSortEnd({
+            todos,
+            setTodos,
+            oldIndex,
+            newIndex,
+            parentId: id,
+          } as IOnSortEndParams)
+        }
+        className="mt-2 flex flex-col gap-2"
+      >
+        {children.map((todo, index) => (
+          <SortableItem
+            key={todo.id}
+            id={todo.id}
+            text={todo.text}
+            children={todo.children}
+            index={index}
             level={level + 1}
+            addChild={onAddChild}
+            editTodo={onEdit}
+            removeTodo={onRemove}
+            todos={todos}
+            setTodos={setTodos}
           />
         ))}
-      </div>
+      </SortableListContainer>
     </div>
   );
 };

@@ -9,14 +9,22 @@ export interface TodoItemProps extends Todo {
   onEdit: (id: string, text: string) => void;
   onRemove: (id: string) => void;
   level?: number;
+  todos?: Todo[];
+  setTodos?: (value: Todo[]) => void;
 }
 
 export interface SortableItemProps {
-  todo: Todo;
+  todo?: Todo;
   addChild: (parentId: string, text: string) => void;
   editTodo: (id: string, newText: string) => void;
   removeTodo: (id: string) => void;
-  index: number;
+  index?: number;
+  level?: number;
+  todos?: Todo[];
+  setTodos?: (value: Todo[]) => void;
+  id?: string;
+  text?: string;
+  children?: Todo[];
 }
 
 export interface SortableListContainerProps {
@@ -63,4 +71,5 @@ export interface IOnSortEndParams {
   setTodos: (todos: Todo[]) => void;
   oldIndex: number;
   newIndex: number;
+  parentId?: string;
 }

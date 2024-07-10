@@ -23,15 +23,24 @@ const validationSchema = Yup.object().shape({
 });
 
 const SortableItem = SortableElement<SortableItemProps>(
-  ({ todo, addChild, editTodo, removeTodo }: SortableItemProps) => (
+  ({
+    todo,
+    addChild,
+    editTodo,
+    removeTodo,
+    todos,
+    setTodos,
+  }: SortableItemProps) => (
     <TodoItem
-      id={todo.id}
-      text={todo.text}
-      children={todo.children}
+      id={todo ? todo.id : ""}
+      text={todo ? todo.text : ""}
+      children={todo ? todo.children : []}
       onAddChild={addChild}
       onEdit={editTodo}
       onRemove={removeTodo}
       level={1}
+      todos={todos}
+      setTodos={setTodos}
     />
   )
 );
@@ -113,6 +122,8 @@ const TodoList: React.FC = () => {
               key={todo.id}
               index={index}
               todo={todo}
+              todos={todos}
+              setTodos={setTodos}
               addChild={(parentId: string, text: string) =>
                 addChild({
                   todos,
