@@ -5,11 +5,11 @@ import {
   SortableItemProps,
   SortableListContainerProps,
   IOnSortEndParams,
-} from "./index.type";
+} from "../../utils/index.type";
 import * as Yup from "yup";
 import Icon from "./Icon";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { onSortEnd } from "./helpers";
+import { onSortEnd } from "../../utils/helpers";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),

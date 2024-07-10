@@ -10,13 +10,19 @@ import {
   IRemoveTodoParams,
   IAddChildParams,
   IOnSortEndParams,
-} from "./index.type";
+} from "../../utils/index.type";
 import { Formik, Form, Field } from "formik";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import * as Yup from "yup";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import Icon from "./Icon";
-import { addTodo, editTodo, removeTodo, addChild, onSortEnd } from "./helpers";
+import {
+  addTodo,
+  editTodo,
+  removeTodo,
+  addChild,
+  onSortEnd,
+} from "../../utils/helpers";
 
 const validationSchema = Yup.object().shape({
   text: Yup.string().required("Text is required"),
