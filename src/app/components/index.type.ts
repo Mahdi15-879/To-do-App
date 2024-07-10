@@ -30,3 +30,37 @@ export interface SortableListContainerProps {
     newIndex: number;
   }) => void;
 }
+
+// helpers Interface's definitions
+export interface IAddTodoParams {
+  todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
+  text: string;
+}
+
+export interface IEditTodoParams {
+  todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
+  id: string;
+  newText: string;
+}
+
+export interface IRemoveTodoParams {
+  todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
+  id: string;
+}
+
+export interface IAddChildParams {
+  todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
+  parentId: string;
+  text: string;
+}
+
+export interface IOnSortEndParams {
+  todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
+  oldIndex: number;
+  newIndex: number;
+}
